@@ -6,7 +6,7 @@
 package distriserver.boundary;
 
 import brugerautorisation.data.Bruger;
-import brugerautorisation.transport.rmi.BrugeradminI;
+import brugerautorisation.transport.rmi.*;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -29,7 +29,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerI {
         //Lav opslag i brugerautorisations modul på en bruger med brugernavn user og kodeord pass
         try {
 
-            BrugeradminI ba = (BrugeradminI) Naming.lookup("rmi://javabog.dk/brugeradmin");
+            Brugeradmin ba = (Brugeradmin) Naming.lookup("rmi://javabog.dk/brugeradmin");
 
             Bruger b = ba.hentBruger(user, pass);
 

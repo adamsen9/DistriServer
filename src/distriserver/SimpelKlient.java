@@ -22,7 +22,7 @@ public class SimpelKlient {
         //String user = reader.nextLine();
         String user = "s123157";
         System.out.println("Indtast kodeord: ");
-        String pass = "clancbsfryser2";
+        String pass = "clancbs";
         //String pass = reader.nextLine();
 
         System.out.println("Der forsøges at logges ind");
