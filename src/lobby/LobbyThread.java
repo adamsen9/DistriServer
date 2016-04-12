@@ -5,16 +5,18 @@
  */
 package lobby;
 
+import lobby.LobbyAL.ALIncomingRMI;
+
 /**
  *
  * @author FrederikSwag
  */
 public class LobbyThread extends Thread {
-    LobbyAL lobbyAL;
+    ALIncomingRMI lobbyAL;
     LobbyI lobby;
     
     
-    public LobbyThread(LobbyI lobby, LobbyAL lobbyAL) {
+    public LobbyThread(LobbyI lobby, ALIncomingRMI lobbyAL) {
         this.lobby = lobby;
         this.lobbyAL = lobbyAL;
         

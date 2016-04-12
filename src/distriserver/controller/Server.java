@@ -9,7 +9,7 @@ import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.Brugeradmin;
 import distriserver.boundary.RMIServerImpl;
 import distriserver.boundary.SOAPServerImpl;
-import distriserver.boundary.brugerautorisation.brugerautorisation;
+import distriserver.boundary.brugerautorisation.Brugerautorisation;
 import distriserver.entity.UserI;
 import java.io.IOException;
 import java.rmi.Naming;
@@ -23,23 +23,24 @@ import lobby.LobbyI;
  * @author FrederikSwag
  */
 public class Server {
-    brugerautorisation ba;
+    Brugerautorisation ba;
     
 
     public Server() throws IOException {
         //Opsætning af RMI og SOAP servere
         //RMI-kommunikation
-        ba = new brugerautorisation();
+        ba = new Brugerautorisation();
         
         RMIServerImpl impl = new RMIServerImpl(this);
         java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
 
         Naming.rebind("rmi://localhost/RMIServerImpl", impl);
         System.out.println("Server publiceret over lokalt RMI");
+        
 
         //SOAP-kommunikation
-        SOAPServerImpl impl2 = new SOAPServerImpl(this);
-        Endpoint.publish("http://[::]:9901/SOAPServerImpl", impl2);
+        //SOAPServerImpl impl2 = new SOAPServerImpl(this);
+        //Endpoint.publish("http://[::]:9901/SOAPServerImpl", impl2);
 
         System.out.println("Server publiceret over SOAP");
     }
