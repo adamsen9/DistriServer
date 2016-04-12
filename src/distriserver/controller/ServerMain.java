@@ -9,6 +9,8 @@ import distriserver.boundary.RMIServerImpl;
 import distriserver.boundary.SOAPServerImpl;
 import java.io.IOException;
 import java.rmi.Naming;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.ws.Endpoint;
 
 /**
@@ -17,25 +19,11 @@ import javax.xml.ws.Endpoint;
  */
 public class ServerMain {
     
-    	public static void main(String[] arg) throws IOException
-	{
-                
-                //RMI-kommunikation
-		RMIServerImpl impl = new RMIServerImpl();
-		java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
-                
-		Naming.rebind("rmi://localhost/RMIServerImpl", impl);
-		System.out.println("Server publiceret over lokalt RMI");
-                
-                
-                //SOAP-kommunikation
-                SOAPServerImpl impl2 = new SOAPServerImpl();
-                Endpoint.publish("http://[::]:9901/SOAPServerImpl", impl2);
-                
-		System.out.println("Server publiceret over SOAP");
-                
-                
-                
-	}
-    
+    public static void main(String[] args) {
+        try {
+            new Server();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

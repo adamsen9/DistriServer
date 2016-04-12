@@ -5,6 +5,7 @@
  */
 package distriserver.boundary;
 
+import distriserver.controller.Server;
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.*;
 import lobby.LobbyI;
@@ -20,48 +21,29 @@ import java.util.ArrayList;
  * @author FrederikSwag
  */
 public class RMIServerImpl extends UnicastRemoteObject implements RMIServerI {
+    Server server;
 
-    public RMIServerImpl() throws RemoteException {
-
+    public RMIServerImpl(Server server) throws RemoteException {
+        this.server = server;
     }
 
     @Override
     public boolean login(String user, String pass) throws RemoteException {
-        System.out.println("Der forsøges at logge ind med brugernavn: " + user + " kodeord: " + pass);
-
-        //Lav opslag i brugerautorisations modul på en bruger med brugernavn user og kodeord pass
-        try {
-
-            Brugeradmin ba = (Brugeradmin) Naming.lookup("rmi://javabog.dk/brugeradmin");
-
-            Bruger b = ba.hentBruger(user, pass);
-
-            if (b.fornavn.isEmpty()) {
-                System.out.println("Login fail");
-                return false;
-            } else {
-                System.out.println("Login sucess");
-                return true;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return server.login(user, pass);
     }
 
     @Override
     public boolean joinLobby(UserI user) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.joinLobby(user);
     }
 
     @Override
     public int getStats(UserI user) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.getStats(user);
     }
 
     @Override
     public ArrayList<LobbyI> getLobbies() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.getLobbies();
     }
 }

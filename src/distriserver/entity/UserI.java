@@ -13,6 +13,8 @@ public interface UserI {
     
     void UserI(String ID);
     
+    String getName();
+    
     String getId();
     String setID(String newId);
     

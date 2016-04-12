@@ -16,15 +16,19 @@ import lobby.LobbyI;
  *
  * @author FrederikSwag
  */
-
 @WebService
 public interface SOAPServerI {
-    
-    
-    @WebMethod boolean login(String user, String pass);
-    @WebMethod int getStats(UserI user);
-    
-    @WebMethod ArrayList<LobbyI> getLobbies();
-    @WebMethod boolean joinLobby(UserI user);
-    
+
+    @WebMethod
+    boolean login(String user, String pass);
+
+    @WebMethod
+    int getStats(UserI user);
+
+    @WebMethod
+    ArrayList<LobbyI> getLobbies();
+
+    @WebMethod
+    boolean joinLobby(UserI user);
+
 }

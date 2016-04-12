@@ -5,6 +5,7 @@
  */
 package distriserver.boundary;
 
+import distriserver.controller.Server;
 import distriserver.entity.UserI;
 import java.util.ArrayList;
 import javax.jws.WebService;
@@ -17,26 +18,29 @@ import lobby.LobbyI;
 @WebService(endpointInterface = "distriserver.boundary.SOAPServerI")
 public class SOAPServerImpl implements SOAPServerI {
 
+    Server server;
+
+    public SOAPServerImpl(Server server) {
+        this.server = server;
+    }
+
     @Override
     public boolean login(String user, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.login(user, pass);
     }
 
     @Override
     public int getStats(UserI user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.getStats(user);
     }
 
     @Override
     public ArrayList<LobbyI> getLobbies() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.getLobbies();
     }
 
     @Override
     public boolean joinLobby(UserI user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return server.joinLobby(user);
     }
-    
-    
-    
 }
