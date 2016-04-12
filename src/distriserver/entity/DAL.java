@@ -31,7 +31,7 @@ public class DAL {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                System.out.println(rs.getString("usersname"));
+                System.out.println(rs.getString("usersname") + " id: " + rs.getString("user_id"));
             }
 
         } catch (SQLException e) {
@@ -42,15 +42,11 @@ public class DAL {
     }
 
     public boolean addPositiveVotes(int votes, String userID) {
-        
-        
-        
-        return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public boolean addNegativeVotes(int votes, String userID) {
-
-        return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

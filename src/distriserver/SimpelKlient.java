@@ -5,9 +5,10 @@
  */
 package distriserver;
 
-import distriserver.boundary.ServerI;
+import distriserver.entity.UserI;
 import java.rmi.Naming;
 import java.util.Scanner;
+import distriserver.boundary.RMIServerI;
 
 /**
  *
@@ -29,13 +30,19 @@ public class SimpelKlient {
 
         //Opret forbindelse til server
         
-        ServerI server = (ServerI) Naming.lookup("rmi://localhost/ServerImpl");
+        RMIServerI server = (RMIServerI) Naming.lookup("rmi://localhost/RMIServerImpl");
         if (server.login(user, pass)) {
             System.out.println("Login sucess");
         } else {
             System.out.println("Login fail");
+            System.exit(0);
         }
+        
+        
 
+                
+        
+        
     }
 
 }

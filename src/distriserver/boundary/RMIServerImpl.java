@@ -7,18 +7,21 @@ package distriserver.boundary;
 
 import brugerautorisation.data.Bruger;
 import brugerautorisation.transport.rmi.*;
+import lobby.LobbyI;
+import distriserver.entity.UserI;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 /**
  *
  * @author FrederikSwag
  */
-public class ServerImpl extends UnicastRemoteObject implements ServerI {
+public class RMIServerImpl extends UnicastRemoteObject implements RMIServerI {
 
-    public ServerImpl() throws RemoteException {
+    public RMIServerImpl() throws RemoteException {
 
     }
 
@@ -45,5 +48,20 @@ public class ServerImpl extends UnicastRemoteObject implements ServerI {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean joinLobby(UserI user) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getStats(UserI user) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<LobbyI> getLobbies() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
