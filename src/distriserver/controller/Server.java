@@ -32,9 +32,10 @@ public class Server {
         ba = new Brugerautorisation();
         
         RMIServerImpl impl = new RMIServerImpl(this);
+        
         java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
 
-        Naming.rebind("rmi://localhost/RMIServerImpl", impl);
+        Naming.rebind("rmi://10.16.227.109/RMIServerImpl", impl);
         System.out.println("Server publiceret over lokalt RMI");
         
 
@@ -60,4 +61,7 @@ public class Server {
     public ArrayList<LobbyI> getLobbies() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    //Implementer returnering af lobby stub
+    //public 
 }

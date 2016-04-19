@@ -5,17 +5,29 @@
  */
 package lobby;
 
-import distriserver.entity.UserI;
 import java.util.ArrayList;
 
 /**
  *
  * @author FrederikSwag
  */
-public interface LobbyI  {
-    ArrayList<UserI> getUsers();
-    boolean addUser(UserI user);
-    
-    
-    
+public interface LobbyI {
+
+    //Join skal også have at klient subscriber med 
+    void join(String userID);
+
+    void leave(String userID);
+
+    ArrayList<String> getPlayers();
+
+    long getTimeLeft();
+
+    String getPartialWord();
+
+    ArrayList<String> getCorrectLetters();
+
+    ArrayList<String> getWrongLetters();
+
+    ArrayList<String> getVotes();
+
 }
