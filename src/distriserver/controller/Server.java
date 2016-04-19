@@ -5,11 +5,11 @@
  */
 package distriserver.controller;
 
-import brugerautorisation.data.Bruger;
-import brugerautorisation.transport.rmi.Brugeradmin;
+
 import distriserver.boundary.RMIServerImpl;
 import distriserver.boundary.SOAPServerImpl;
 import distriserver.boundary.brugerautorisation.Brugerautorisation;
+
 import distriserver.entity.UserI;
 import java.io.IOException;
 import java.rmi.Naming;

@@ -9,6 +9,7 @@ package lobby.LobbyAL;
  *
  * @author FrederikSwag
  */
-public class ALOutgoingRMI {
+public interface ALOutgoingRMII extends java.rmi.Remote {
+    
     
 }

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,10 +6,13 @@
  */
 package lobby.LobbyAL;
 
+
+import java.rmi.server.UnicastRemoteObject;
+
 /**
  *
  * @author FrederikSwag
  */
-public class ALIncomingSOAP {
-    
-}
+//public class ALIncomingRMIImpl extends UnicastRemoteObject implements ALIncomingRMII {
+//    
+//}

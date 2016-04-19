@@ -10,15 +10,8 @@ package lobby.LobbyAL;
  * @author FrederikSwag
  * Denne klasse står for kommunikation mellem lobbier og klienter
  */
-public class ALIncomingRMI {
+public interface ALIncomingRMII extends java.rmi.Remote {
     
-    
-    public boolean notifyNewUser() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-
-    
-    
+   
     
 }

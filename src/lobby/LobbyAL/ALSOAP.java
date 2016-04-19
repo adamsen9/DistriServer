@@ -8,7 +8,9 @@ package lobby.LobbyAL;
 /**
  *
  * @author FrederikSwag
+ * Der kommer kun information ind herfra
  */
-public class ALOutgoingSOAP {
+public class ALSOAP {
+    
     
 }
