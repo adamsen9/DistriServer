@@ -23,10 +23,10 @@ public class DAL {
 
     public static void main(String[] args) {
         try {
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             String sql = "select * from users";
             sql = String.format(Locale.US, sql);
 
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -47,6 +47,25 @@ public class DAL {
 
     public boolean addNegativeVotes(int votes, String userID) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getUserStats(String userID) {
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            String sql = "SELECT * FROM users WHERE userid = '" + userID + "'";
+            sql = String.format(Locale.US, sql);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while(rs.next())
+                return rs.getString("positivescore") + " " + rs.getString("negativescore");
+            
+        } catch (SQLException e) {
+            System.out.println("SQL Fejl: " + e.getMessage());
+            e.printStackTrace();
+        }
+            return "Error";
     }
 
 }

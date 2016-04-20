@@ -38,6 +38,8 @@ public class SimpelKlient {
             System.exit(0);
         }
         
+        
+        
     }
 
 }

@@ -23,7 +23,7 @@ public interface SOAPServerI {
     boolean login(String user, String pass);
 
     @WebMethod
-    int getStats(UserI user);
+    String getStats(String userID);
 
     @WebMethod
     ArrayList<LobbyI> getLobbies();

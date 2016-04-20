@@ -38,8 +38,8 @@ public class RMIServerImpl extends UnicastRemoteObject implements RMIServerI {
     }
 
     @Override
-    public int getStats(UserI user) throws RemoteException {
-        return server.getStats(user);
+    public String getStats(String userID) throws RemoteException {
+        return server.getStats(userID);
     }
 
     @Override

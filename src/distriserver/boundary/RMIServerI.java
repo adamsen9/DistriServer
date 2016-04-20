@@ -15,10 +15,12 @@ import java.util.ArrayList;
  * @author FrederikSwag
  */
 public interface RMIServerI extends java.rmi.Remote {
-    
-    boolean login(String user, String pass)     throws RemoteException;
-    int getStats(UserI user)                    throws RemoteException;
-        
-    ArrayList<LobbyI> getLobbies()              throws RemoteException;
-    boolean joinLobby(UserI user)               throws RemoteException;
+
+    boolean login(String user, String pass) throws RemoteException;
+
+    String getStats(String userID) throws RemoteException;
+
+    ArrayList<LobbyI> getLobbies() throws RemoteException;
+
+    boolean joinLobby(UserI user) throws RemoteException;
 }

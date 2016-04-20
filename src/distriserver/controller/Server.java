@@ -8,7 +8,7 @@ package distriserver.controller;
 
 import distriserver.boundary.RMIServerImpl;
 import distriserver.boundary.SOAPServerImpl;
-import distriserver.boundary.brugerautorisation.Brugerautorisation;
+import distriserver.boundary.brugerautorisation.brugerautorisation;
 
 import distriserver.entity.UserI;
 import java.io.IOException;
@@ -23,13 +23,13 @@ import lobby.LobbyI;
  * @author FrederikSwag
  */
 public class Server {
-    Brugerautorisation ba;
+    brugerautorisation ba;
     
 
     public Server() throws IOException {
         //Opsætning af RMI og SOAP servere
         //RMI-kommunikation
-        ba = new Brugerautorisation();
+        ba = new brugerautorisation();
         
         RMIServerImpl impl = new RMIServerImpl(this);
         
@@ -50,11 +50,13 @@ public class Server {
         return ba.login(user, pass);
     }
 
+    //TODO her skal returneres en lobby stub til klient, der da kan kalde join
     public boolean joinLobby(UserI user) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public int getStats(UserI user) {
+    public String getStats(String userID) {
+        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

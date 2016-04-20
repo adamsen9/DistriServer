@@ -30,8 +30,8 @@ public class SOAPServerImpl implements SOAPServerI {
     }
 
     @Override
-    public int getStats(UserI user) {
-        return server.getStats(user);
+    public String getStats(String userID) {
+        return server.getStats(userID);
     }
 
     @Override
