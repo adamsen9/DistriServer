@@ -5,9 +5,11 @@
  */
 package lobby;
 
+import distriserver.entity.DAL;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lobby.LobbyAL.ALIncomingRMII;
 
 /**
  *
@@ -15,34 +17,84 @@ import lobby.LobbyAL.ALIncomingRMII;
  */
 public class LobbyThread extends Thread {
 
-    ALIncomingRMII lobbyAL;
+    int timer;
     Lobby lobby;
+    CountdownClass cc;
+    DAL dal;
 
-    public LobbyThread(Lobby lobby, ALIncomingRMII lobbyAL) {
+    int intMax;
+    String strMax = "";
+
+    public LobbyThread(Lobby lobby, DAL dal) {
         this.lobby = lobby;
-        this.lobbyAL = lobbyAL;
-
+        this.dal = dal;
     }
 
     //Implementer spillet og  kommunikation med AL her
     public void run() {
+        timer = 30;
         try {
-            System.out.println("Testing timer");
-            System.out.println("5");
-            Thread.sleep(1000);
-            System.out.println("4");
-            Thread.sleep(1000);
-            System.out.println("3");
-            Thread.sleep(1000);
-            System.out.println("2");
-            Thread.sleep(1000);
-            System.out.println("1");
-            Thread.sleep(1000);
-            System.out.println("0");
-            System.out.println("Færdig");
+            while (true) {
+                Thread.sleep(100);
+                if(lobby.nyeSpillere) {
+                    //Opdater alle stubbe om at der er nye spillere
+                }
+
+                if (timer == 0) {
+                    //Omgangen er færdig og stemmer skal tælles op
+                    //Hvis der ingen stemmer er, start forfra
+                    //Hvis de to der har flest stemmer har lige mange, vælg tilfældigt
+                    intMax = 0;
+                    Iterator it = lobby.getVotes().entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        //Match med max
+                        System.out.println("");
+                        if ((Integer) pair.getValue() > intMax) {
+                            intMax = (Integer) pair.getValue();
+                            strMax = (String) pair.getKey();
+                        }
+
+                        it.remove();
+                    }
+                    if (intMax != 0) {
+                        //Opdater kun stemmer hvis der rent faktisk er afgivet nogle
+                        if (lobby.getOrdet().contains(strMax)) {
+                            //Bogstaver er gættet
+                                //Opdater synligt ord
+                                
+                            //Opdater med positivt point
+                            for (String str : lobby.getVoters().get("A")) {
+                                //Send opdatering ud til alle bruger id der matcher str
+
+                                //Uddel point ud fra hvad der er stemt
+                            }
+
+                        } else {
+                            //Bogstavet er ikke gættet
+                            
+                            //Opdater med negativt point
+                            for (String str : lobby.getVoters().get("A")) {
+                                //Send opdatering ud til alle bruger id der matcher str
+
+                                //Uddel point ud fra hvad der er stemt
+                            }
+
+                        }
+
+                    } else {
+                        //Hvis der ikke er afgivet nogle stemmer skal der ikke ske noget
+                    }
+
+                } else {
+                    //Send opdateringer vedrørende den nuværende afstemning og brugere i lobbyen til klienter i stub listen
+
+                }
+
+            }
 
         } catch (InterruptedException ex) {
-            Logger.getLogger(LobbyThread.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
     }

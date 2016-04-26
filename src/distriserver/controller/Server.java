@@ -47,7 +47,8 @@ public class Server {
 
         System.out.println("Server publiceret over SOAP");
         
-        System.out.println("Tester timer i lobbytråd");
+        //Oprettelse af lobbier
+        
         
         
     }
@@ -69,6 +70,7 @@ public class Server {
     public ArrayList<String> getLobbies() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
     
     //Implementer returnering af lobby stub
     //public 

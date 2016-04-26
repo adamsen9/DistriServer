@@ -25,9 +25,9 @@ public class CountdownClass implements Runnable {
 
     @Override
     public void run() {
-        for (int i = time; i >= 0; i--) {
+        for (; time >= 0; time--) {
             try {
-                stringToUpdate = Integer.toString(i);
+                stringToUpdate = Integer.toString(time);
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(CountdownClass.class.getName()).log(Level.SEVERE, null, ex);

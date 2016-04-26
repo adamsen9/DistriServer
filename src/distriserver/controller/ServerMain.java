@@ -17,12 +17,15 @@ import javax.xml.ws.Endpoint;
  * @author FrederikSwag
  */
 public class ServerMain {
+    Server server;
     
     public static void main(String[] args) {
         try {
             new Server();
-        } catch (IOException ex) {
-            Logger.getLogger(ServerMain.class.getName()).log(Level.SEVERE, null, ex);
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
