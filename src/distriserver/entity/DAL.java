@@ -10,6 +10,8 @@ import java.util.Locale;
 
 //Hvilken driver anvendes
 public class DAL {
+    
+    
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
@@ -23,6 +25,11 @@ public class DAL {
     
     static Connection conn;
     static Statement stmt;
+    Buffer buffer;
+    
+    public DAL(Buffer buffer) {
+        this.buffer = buffer;
+    }
 
     public static void main(String[] args) {
         try {

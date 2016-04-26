@@ -5,6 +5,7 @@
  */
 package lobby;
 
+import distriserver.entity.Buffer;
 import distriserver.entity.DAL;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,19 +16,19 @@ import java.util.logging.Logger;
  *
  * @author FrederikSwag
  */
-public class LobbyThread extends Thread {
+public class LobbyThread implements Runnable {
 
     int timer;
     Lobby lobby;
     CountdownClass cc;
-    DAL dal;
+    Buffer buffer;
 
     int intMax;
     String strMax = "";
 
-    public LobbyThread(Lobby lobby, DAL dal) {
+    public LobbyThread(Lobby lobby, Buffer buffer) {
         this.lobby = lobby;
-        this.dal = dal;
+        this.buffer = buffer;
     }
 
     //Implementer spillet og  kommunikation med AL her
@@ -55,7 +56,6 @@ public class LobbyThread extends Thread {
                             strMax = (String) pair.getKey();
                         }
 
-                        it.remove();
                     }
                     if (intMax != 0) {
                         //Opdater kun stemmer hvis der rent faktisk er afgivet nogle
@@ -71,13 +71,14 @@ public class LobbyThread extends Thread {
                             }
 
                         } else {
-                            //Bogstavet er ikke gættet
+                            //Bogstavet er gættet forkert
                             
                             //Opdater med negativt point
                             for (String str : lobby.getVoters().get("A")) {
                                 //Send opdatering ud til alle bruger id der matcher str
-
+                                
                                 //Uddel point ud fra hvad der er stemt
+                                
                             }
 
                         }

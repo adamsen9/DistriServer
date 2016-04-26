@@ -8,6 +8,8 @@ package lobby;
 import distriserver.boundary.GWTStub;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  *
@@ -87,24 +89,23 @@ public class Lobby {
 
     }
 
-
     //RMILobby metoder
     public void join(String userID, GWTStub stub) {
         nyeSpillere = true;
         spillere.put(userID, stub);
     }
-    
+
     public void gætBogstav(String bogstav, String userID) {
         if (bogstav.length() > 1) {
         } else {
             Integer value = stemmer.get(bogstav);
             stemmer.put(bogstav, value + 1);
-            System.out.println(stemmer.get(bogstav));
+
+            hvemStemteHvad.get(bogstav).add(userID);
         }
     }
-    
+
     //Deler
-    
     public String getSynligtOrd() {
         return synligtOrd;
     }
@@ -125,9 +126,31 @@ public class Lobby {
     public boolean nyeSpillere() {
         return nyeSpillere;
     }
-    
+
     public HashMap<String, GWTStub> getSpillere() {
         return spillere;
+    }
+
+    public void nulstilGæt() {
+
+        //Antal afgivne stemmer
+        Iterator it = stemmer.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            //Match med max
+            pair.setValue((Integer) 0);
+
+        }
+
+        //Hvem stemte hvad
+        it = hvemStemteHvad.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            //Match med max
+            ((ArrayList) pair.getValue()).clear();
+
+        }
+
     }
 
 }
