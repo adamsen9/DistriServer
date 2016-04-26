@@ -7,7 +7,6 @@ package distriserver.controller;
 
 
 import distriserver.boundary.RMIServerImpl;
-import distriserver.boundary.SOAPServerImpl;
 import distriserver.boundary.brugerautorisation.brugerautorisation;
 
 import distriserver.entity.UserI;
@@ -30,7 +29,6 @@ public class Server {
         //Opsætning af RMI og SOAP servere
         //RMI-kommunikation
         ba = new brugerautorisation();
-        
         RMIServerImpl impl = new RMIServerImpl(this);
         
         java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM

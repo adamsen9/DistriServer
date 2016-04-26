@@ -5,7 +5,6 @@
  */
 package distriserver;
 
-import distriserver.entity.UserI;
 import java.rmi.Naming;
 import java.util.Scanner;
 import distriserver.boundary.RMIServerI;
@@ -37,7 +36,6 @@ public class SimpelKlient {
             System.out.println("Login fail");
             System.exit(0);
         }
-        
         
         
     }

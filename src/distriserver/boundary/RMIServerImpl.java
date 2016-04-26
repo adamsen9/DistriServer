@@ -6,12 +6,9 @@
 package distriserver.boundary;
 
 import distriserver.controller.Server;
-import brugerautorisation.data.Bruger;
-import brugerautorisation.transport.rmi.*;
 import lobby.LobbyI;
 import distriserver.entity.UserI;
 
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;

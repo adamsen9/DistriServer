@@ -20,14 +20,17 @@ public class DAL {
     static final String USER = "fsabase";
     //Pass
     static final String PASS = "clancbsfryser2";
+    
+    static Connection conn;
+    static Statement stmt;
 
     public static void main(String[] args) {
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             String sql = "select * from users";
             sql = String.format(Locale.US, sql);
 
-            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
@@ -41,21 +44,48 @@ public class DAL {
 
     }
 
-    public boolean addPositiveVotes(int votes, String userID) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean addPositiveVote(String userID) {
+        try {
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            String sql = "UPDATE users SET positivescore = positivescore + 1 WHERE user_id = +\"" + userID + "\"";
+            sql = String.format(Locale.US, sql);
+            stmt = conn.createStatement();
+            
+            
+            
+            return stmt.execute(sql);
+        }
+         catch(SQLException e) {
+             
+             return false;
+         }
+        
     }
 
-    public boolean addNegativeVotes(int votes, String userID) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean addNegativeVote(String userID) {
+        try {
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            String sql = "UPDATE users SET positivescore = negativescore + 1 WHERE user_id = +\"" + userID + "\"";
+            sql = String.format(Locale.US, sql);
+            stmt = conn.createStatement();
+            
+            
+            
+            return stmt.execute(sql);
+        }
+         catch(SQLException e) {
+             
+             return false;
+         }
     }
 
     public String getUserStats(String userID) {
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             String sql = "SELECT * FROM users WHERE userid = '" + userID + "'";
             sql = String.format(Locale.US, sql);
 
-            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             
             while(rs.next())
