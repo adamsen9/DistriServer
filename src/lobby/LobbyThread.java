@@ -5,6 +5,8 @@
  */
 package lobby;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lobby.LobbyAL.ALIncomingRMII;
 
 /**
@@ -12,24 +14,37 @@ import lobby.LobbyAL.ALIncomingRMII;
  * @author FrederikSwag
  */
 public class LobbyThread extends Thread {
+
     ALIncomingRMII lobbyAL;
     LobbyI lobby;
-    
-    
+
     public LobbyThread(LobbyI lobby, ALIncomingRMII lobbyAL) {
         this.lobby = lobby;
         this.lobbyAL = lobbyAL;
-        
+
     }
-    
-    
+
     //Implementer spillet og  kommunikation med AL her
     public void run() {
-        
-        
-        
-        
-        
+        try {
+            System.out.println("Testing timer");
+            System.out.println("5");
+            Thread.sleep(1000);
+            System.out.println("4");
+            Thread.sleep(1000);
+            System.out.println("3");
+            Thread.sleep(1000);
+            System.out.println("2");
+            Thread.sleep(1000);
+            System.out.println("1");
+            Thread.sleep(1000);
+            System.out.println("0");
+            System.out.println("Færdig");
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(LobbyThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
 }

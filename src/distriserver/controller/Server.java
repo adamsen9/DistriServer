@@ -15,8 +15,12 @@ import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.ws.Endpoint;
 import lobby.LobbyI;
+import lobby.LobbyImpl;
+import lobby.LobbyThread;
 
 /**
  *
@@ -35,7 +39,7 @@ public class Server {
         
         java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
 
-        Naming.rebind("rmi://10.16.227.109/RMIServerImpl", impl);
+        Naming.rebind("rmi://localhost/RMIServerImpl", impl);
         System.out.println("Server publiceret over lokalt RMI");
         
 
@@ -44,6 +48,10 @@ public class Server {
         //Endpoint.publish("http://[::]:9901/SOAPServerImpl", impl2);
 
         System.out.println("Server publiceret over SOAP");
+        
+        System.out.println("Tester timer i lobbytråd");
+        
+        
     }
 
     public boolean login(String user, String pass) {
