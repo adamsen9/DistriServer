@@ -5,7 +5,6 @@
  */
 package distriserver.boundary;
 
-import lobby.LobbyI;
 import distriserver.entity.UserI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public interface RMIServerI extends java.rmi.Remote {
 
     String getStats(String userID) throws RemoteException;
 
-    ArrayList<LobbyI> getLobbies() throws RemoteException;
+    ArrayList<String> getLobbies() throws RemoteException;
 
     boolean joinLobby(UserI user) throws RemoteException;
 }

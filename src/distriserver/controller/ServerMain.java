@@ -6,7 +6,6 @@
 package distriserver.controller;
 
 import distriserver.boundary.RMIServerImpl;
-import distriserver.boundary.SOAPServerImpl;
 import java.io.IOException;
 import java.rmi.Naming;
 import java.util.logging.Level;

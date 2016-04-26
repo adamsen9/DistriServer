@@ -6,7 +6,6 @@
 package distriserver.boundary;
 
 import distriserver.controller.Server;
-import lobby.LobbyI;
 import distriserver.entity.UserI;
 
 import java.rmi.RemoteException;
@@ -40,7 +39,7 @@ public class RMIServerImpl extends UnicastRemoteObject implements RMIServerI {
     }
 
     @Override
-    public ArrayList<LobbyI> getLobbies() throws RemoteException {
+    public ArrayList<String> getLobbies() throws RemoteException {
         return server.getLobbies();
     }
 }

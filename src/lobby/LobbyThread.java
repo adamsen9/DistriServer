@@ -16,9 +16,9 @@ import lobby.LobbyAL.ALIncomingRMII;
 public class LobbyThread extends Thread {
 
     ALIncomingRMII lobbyAL;
-    LobbyI lobby;
+    Lobby lobby;
 
-    public LobbyThread(LobbyI lobby, ALIncomingRMII lobbyAL) {
+    public LobbyThread(Lobby lobby, ALIncomingRMII lobbyAL) {
         this.lobby = lobby;
         this.lobbyAL = lobbyAL;
 

@@ -7,7 +7,6 @@ package distriserver.controller;
 
 
 import distriserver.boundary.RMIServerImpl;
-import distriserver.boundary.SOAPServerImpl;
 import distriserver.boundary.brugerautorisation.Brugeraut;
 
 import distriserver.entity.UserI;
@@ -18,8 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.ws.Endpoint;
-import lobby.LobbyI;
-import lobby.LobbyImpl;
+import lobby.Lobby;
 import lobby.LobbyThread;
 
 /**
@@ -68,7 +66,7 @@ public class Server {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public ArrayList<LobbyI> getLobbies() {
+    public ArrayList<String> getLobbies() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
