@@ -31,7 +31,6 @@ public class LobbyThread implements Runnable {
     String strMax = "";
     Iterator it;
     int id;
-    
 
     ArrayList<String> listeAfSpillere;
 
@@ -40,7 +39,7 @@ public class LobbyThread implements Runnable {
         this.buffer = buffer;
         this.id = id;
     }
-    
+
     public Lobby getLobby() {
         return lobby;
     }
@@ -50,116 +49,97 @@ public class LobbyThread implements Runnable {
     public void run() {
         timer = 30;
         try {
+            
+            
+            
+            
+            
+            
+            
+            
             while (true) {
-                if(lobby.getSpillere().size() == 0) {
-                    System.out.println(lobby.getSpillere().size());
-                //Hvis der ingen spillere er, gør ingenting
-                    
+                if (lobby.getSpillere().isEmpty()) {
+                    System.out.println("tom");
+                    //Hvis der ingen spillere er, gør ingenting
+
                 } else {
-                                        System.out.println(lobby.getSpillere().size());
-                Thread.sleep(100);
-                if (lobby.nyeSpillere()) {
-                    //Opdater alle stubbe om at der er nye spillere
-                }
-
-                if (timer == 0) {
-                    //Omgangen er færdig og stemmer skal tælles op
-                    //Hvis der ingen stemmer er, start forfra
-                    //Hvis de to der har flest stemmer har lige mange, vælg tilfældigt
-                    intMax = 0;
-                    it = lobby.getVotes().entrySet().iterator();
-                    timer = timerReset;
-                    
-                    while (it.hasNext()) {
-                        Map.Entry pair = (Map.Entry) it.next();
-                        //Match med max
-                        if ((Integer) pair.getValue() > intMax) {
-                            intMax = (Integer) pair.getValue();
-                            strMax = (String) pair.getKey();
-                        }
-                        lobby.getBrugteBogstaver().add(strMax);
-
+                    System.out.println(lobby.getSpillere().size());
+                    Thread.sleep(100);
+                    if (lobby.nyeSpillere()) {
+                        //Opdater alle stubbe om at der er nye spillere
                     }
-                    if (intMax != 0) {
-                        //Opdater kun stemmer hvis der rent faktisk er afgivet nogle
-                        if (lobby.getOrdet().contains(strMax)) {
-                            //Bogstaver er gættet
-                            //Opdater synligt ord
 
-                            //Opdater med positivt point
-                            for (String str : lobby.getVoters().get("A")) {
-                                //Send opdatering ud til alle brugere
+                    if (timer == 0) {
+                        //Omgangen er færdig og stemmer skal tælles op
+                        //Hvis der ingen stemmer er, start forfra
+                        //Hvis de to der har flest stemmer har lige mange, vælg tilfældigt
+                        intMax = 0;
+                        it = lobby.getVotes().entrySet().iterator();
+                        timer = timerReset;
 
-                                //Uddel point ud fra hvad der er stemt
-                                buffer.addPositiveVote(str);
+                        while (it.hasNext()) {
+                            Map.Entry pair = (Map.Entry) it.next();
+                            //Match med max
+                            if ((Integer) pair.getValue() > intMax) {
+                                intMax = (Integer) pair.getValue();
+                                strMax = (String) pair.getKey();
+                            }
+                            lobby.getBrugteBogstaver().add(strMax);
+
+                        }
+                        if (intMax != 0) {
+                            //Opdater kun stemmer hvis der rent faktisk er afgivet nogle
+                            if (lobby.getOrdet().contains(strMax)) {
+                                //Bogstaver er gættet
+                                //Opdater synligt ord
+
+                                //Opdater med positivt point
+                                for (String str : lobby.getVoters().get("A")) {
+                                    //Send opdatering ud til alle brugere
+
+                                    //Uddel point ud fra hvad der er stemt
+                                    buffer.addPositiveVote(str);
+                                }
+
+                            } else {
+                                //Bogstavet er gættet forkert
+
+                                //Opdater med negativt point
+                                for (String str : lobby.getVoters().get("A")) {
+                                    //Send opdatering ud til alle brugere
+                                    it = lobby.getSpillere().entrySet().iterator();
+                                    while (it.hasNext()) {
+                                        Map.Entry pair = (Map.Entry) it.next();
+                                        try {
+                                            ((GWTStub) pair.getValue()).resultatAfAfstemning(true);
+                                            ((GWTStub) pair.getValue()).sidstGættet("PLACEHOLDER");
+                                        } catch (RemoteException ex) {
+                                            //En remote exception betyder at der ikke er forbindelse til brugeren længere
+                                            fjernSpiller((String) pair.getKey());
+                                        }
+
+                                    }
+
+                                    //Uddel point ud fra hvad der er stemt
+                                    buffer.addNegativeVote(str);
+                                }
                             }
 
                         } else {
-                            //Bogstavet er gættet forkert
-
-                            //Opdater med negativt point
-                            for (String str : lobby.getVoters().get("A")) {
-                                //Send opdatering ud til alle brugere
-                                it = lobby.getSpillere().entrySet().iterator();
-                                while (it.hasNext()) {
-                                    Map.Entry pair = (Map.Entry) it.next();
-                                    try {
-                                        ((GWTStub) pair.getValue()).resultatAfAfstemning(true);
-                                        ((GWTStub) pair.getValue()).sidstGættet("PLACEHOLDER");
-                                    } catch (RemoteException ex) {
-                                        //En remote exception betyder at der ikke er forbindelse til brugeren længere
-                                        fjernSpiller((String) pair.getKey());
-                                    }
-
-
-                                }
-                                
-                                //Uddel point ud fra hvad der er stemt
-                                buffer.addNegativeVote(str);
-                            }
+                            //Hvis der ikke er afgivet nogle stemmer skal der ikke ske noget
                         }
 
                     } else {
-                        //Hvis der ikke er afgivet nogle stemmer skal der ikke ske noget
-                    }
+                        //Send opdateringer vedrørende den nuværende afstemning og brugere i lobbyen til klienter i stub listen
 
-                } else {
-                    //Send opdateringer vedrørende den nuværende afstemning og brugere i lobbyen til klienter i stub listen
-
-                    //Beskeder om nuvæerende afstemning
-                    
-                    it = lobby.getSpillere().entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pair = (Map.Entry) it.next();
-
-                        try {
-
-                            ((GWTStub) pair.getValue()).listeAfStemmer(lobby.stemmer);
-
-                        } catch (RemoteException ex) {
-                            //En remote exception betyder at der ikke er forbindelse til brugeren længere
-                            fjernSpiller((String) pair.getKey());
-                        }
-                    }
-
-                    //Udsender beskeder om spillerstatus
-                    if (lobby.nyeSpillere) {
-                        listeAfSpillere = new ArrayList<String>();
-
+                        //Beskeder om nuvæerende afstemning
                         it = lobby.getSpillere().entrySet().iterator();
                         while (it.hasNext()) {
                             Map.Entry pair = (Map.Entry) it.next();
-                            listeAfSpillere.add((String) pair.getKey());
 
-                        }
-
-                        it = lobby.getSpillere().entrySet().iterator();
-                        while (it.hasNext()) {
-                            Map.Entry pair = (Map.Entry) it.next();
-                            listeAfSpillere.add((String) pair.getKey());
                             try {
 
-                                ((GWTStub) pair.getValue()).listeAfSpillere(listeAfSpillere);
+                                ((GWTStub) pair.getValue()).listeAfStemmer(lobby.stemmer);
 
                             } catch (RemoteException ex) {
                                 //En remote exception betyder at der ikke er forbindelse til brugeren længere
@@ -167,8 +147,33 @@ public class LobbyThread implements Runnable {
                             }
                         }
 
+                        //Udsender beskeder om spillerstatus
+                        if (lobby.nyeSpillere) {
+                            listeAfSpillere = new ArrayList<String>();
+
+                            it = lobby.getSpillere().entrySet().iterator();
+                            while (it.hasNext()) {
+                                Map.Entry pair = (Map.Entry) it.next();
+                                listeAfSpillere.add((String) pair.getKey());
+
+                            }
+
+                            it = lobby.getSpillere().entrySet().iterator();
+                            while (it.hasNext()) {
+                                Map.Entry pair = (Map.Entry) it.next();
+                                listeAfSpillere.add((String) pair.getKey());
+                                try {
+
+                                    ((GWTStub) pair.getValue()).listeAfSpillere(listeAfSpillere);
+
+                                } catch (RemoteException ex) {
+                                    //En remote exception betyder at der ikke er forbindelse til brugeren længere
+                                    fjernSpiller((String) pair.getKey());
+                                }
+                            }
+
+                        }
                     }
-                }
                 }
 
             }

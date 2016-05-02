@@ -17,12 +17,11 @@ import javax.xml.ws.Endpoint;
  * @author FrederikSwag
  */
 public class ServerMain {
-    
+
     public static void main(String[] args) {
         try {
             new Server();
-            
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

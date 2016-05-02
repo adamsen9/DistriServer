@@ -32,6 +32,9 @@ public class Lobby {
     public Lobby() {
         //Setup af stemmer
         stemmer = new HashMap<>();
+        hvemStemteHvad = new HashMap<>();
+        spillere = new HashMap<>();
+        
         stemmer.put("A", 0);
         stemmer.put("B", 0);
         stemmer.put("C", 0);

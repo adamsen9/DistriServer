@@ -36,7 +36,7 @@ public class Server {
         //Opsætning af RMI og SOAP servere
         //RMI-kommunikation
         ba = new Brugeraut();
-        
+
         lobbies = new ArrayList<>();
         lobbyThreads = new ArrayList<>();
 
@@ -64,11 +64,10 @@ public class Server {
             lobbies.add(lobbyThread.getLobby());
             lobbyThread.run();
         }
-        
-        
+
         //DAL buffer startes
         System.out.println("DAL buffer oprettes og startes");
-        BufferThread bufferThread = new BufferThread(dal,dal.getBuffer());
+        BufferThread bufferThread = new BufferThread(dal, dal.getBuffer());
         bufferThread.run();
 
     }
