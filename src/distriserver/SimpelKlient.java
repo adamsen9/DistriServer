@@ -29,7 +29,7 @@ public class SimpelKlient {
 
         //Opret forbindelse til server
         
-        RMIServerI server = (RMIServerI) Naming.lookup("rmi://localhost/RMIServerImpl");
+        RMIServerI server = (RMIServerI) Naming.lookup("rmi://192.168.0.19/RMIServerImpl");
         
         if (server.login(user, pass)) {
             System.out.println("Login sucess");

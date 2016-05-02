@@ -26,6 +26,7 @@ public class Lobby {
     HashMap<String, GWTStub> spillere;
 
     String ordet = "MASSEØDELÆGGELSESVÅBEN";
+    ArrayList<String> brugteBogstaver = new ArrayList<String>();
     String synligtOrd = "";
 
     public Lobby() {
@@ -124,7 +125,12 @@ public class Lobby {
     }
 
     public boolean nyeSpillere() {
-        return nyeSpillere;
+        if (nyeSpillere) {
+            nyeSpillere = false;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public HashMap<String, GWTStub> getSpillere() {
@@ -151,6 +157,22 @@ public class Lobby {
 
         }
 
+    }
+
+    public void opdaterSynligtOrd() {
+        
+        for (int n = 0; n < ordet.length(); n++) {
+            String bogstav = ordet.substring(n, n + 1);
+            if (brugteBogstaver.contains(bogstav)) {
+                synligtOrd = synligtOrd + bogstav;
+            } else {
+                synligtOrd = synligtOrd + "*";
+            }
+        }
+    }
+    
+    public ArrayList<String> getBrugteBogstaver() {
+        return brugteBogstaver;
     }
 
 }

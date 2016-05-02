@@ -20,15 +20,14 @@ public class BufferThread implements Runnable {
     ArrayList<String> list;
     String tmp;
 
-    public BufferThread(DAL dal) {
-        buffer = new Buffer();
+    public BufferThread(DAL dal,Buffer buffer) {
+        this.buffer = buffer;
         this.dal = dal;
     }
-    
+
     public Buffer getBuffer() {
         return buffer;
     }
-    
 
     @Override
     public void run() {
@@ -43,10 +42,10 @@ public class BufferThread implements Runnable {
                     }
 
                 }
-                
-                if(buffer.anyPositive()) {
+
+                if (buffer.anyPositive()) {
                     list = buffer.getPositiveVote();
-                    for(String str : list) {
+                    for (String str : list) {
                         dal.addPositiveVote(str);
                         list.remove(str);
                     }

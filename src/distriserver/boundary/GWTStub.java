@@ -17,7 +17,7 @@ public interface GWTStub extends java.rmi.Remote {
     
         void listeAfSpillere(ArrayList<String> liste) throws RemoteException;
         
-        void listeAfSpillere(HashMap<String, Integer> liste ) throws RemoteException;
+        void listeAfStemmer(HashMap<String, Integer> liste ) throws RemoteException;
         
         void synligtOrd(String str) throws RemoteException;
         

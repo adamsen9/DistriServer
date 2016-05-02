@@ -11,6 +11,7 @@ import distriserver.entity.UserI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import lobby.Lobby;
 
 /**
  *
@@ -29,17 +30,12 @@ public class RMIServerImpl extends UnicastRemoteObject implements RMIServerI {
     }
 
     @Override
-    public boolean joinLobby(UserI user) throws RemoteException {
-        return server.joinLobby(user);
-    }
-
-    @Override
     public String getStats(String userID) throws RemoteException {
         return server.getStats(userID);
     }
 
     @Override
-    public ArrayList<String> getLobbies() throws RemoteException {
+    public ArrayList<Lobby> getLobbies() throws RemoteException {
         return server.getLobbies();
     }
 }

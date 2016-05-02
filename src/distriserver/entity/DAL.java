@@ -27,30 +27,10 @@ public class DAL {
     static Statement stmt;
     Buffer buffer;
     
-    public DAL(Buffer buffer) {
-        this.buffer = buffer;
+    public DAL() {
+        buffer = new Buffer();
     }
-
-    public static void main(String[] args) {
-        try {
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            String sql = "select * from users";
-            sql = String.format(Locale.US, sql);
-
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                System.out.println(rs.getString("usersname") + " id: " + rs.getString("user_id"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("SQL Fejl: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
-
+    
     public boolean addPositiveVote(String userID) {
         try {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -103,6 +83,10 @@ public class DAL {
             e.printStackTrace();
         }
             return "Error";
+    }
+    
+    public Buffer getBuffer() {
+        return buffer;
     }
 
 }

@@ -33,7 +33,6 @@ public class CountdownClass implements Runnable {
                 Logger.getLogger(CountdownClass.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 
 }
