@@ -34,10 +34,13 @@ public class LobbyThread implements Runnable {
 
     ArrayList<String> listeAfSpillere;
 
+    ArrayList<GWTStub> spillere;
+
     public LobbyThread(Buffer buffer, int id) {
         lobby = new Lobby();
         this.buffer = buffer;
         this.id = id;
+        spillere = new ArrayList<>();
     }
 
     public Lobby getLobby() {
@@ -49,22 +52,23 @@ public class LobbyThread implements Runnable {
     public void run() {
         timer = 30;
         try {
-            
-            
-            
-            
-            
-            
-            
-            
+
             while (true) {
-                    Thread.sleep(100);
+                Thread.sleep(100);
                 if (lobby.getSpillere().isEmpty()) {
                     //Hvis der ingen spillere er, gør ingenting
 
                 } else {
+                    //TODO byg arrayliste af stubbe for nemmere opdatering længere nede i koden
+                    it = lobby.getSpillere().entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        spillere.add(((GWTStub) pair.getValue()));
+                    }
+
                     if (lobby.nyeSpillere()) {
                         //Opdater alle stubbe om at der er nye spillere
+                        //TODO alt hvad der hedder opdatering af stubbe
                     }
 
                     if (timer == 0) {
@@ -92,9 +96,15 @@ public class LobbyThread implements Runnable {
                                 //Opdater synligt ord
 
                                 //Opdater med positivt point
-                                for (String str : lobby.getVoters().get("A")) {
+                                for (String str : lobby.getVoters().get(strMax)) {
                                     //Send opdatering ud til alle brugere
-
+                                    for (GWTStub stub : spillere) {
+                                        try {
+                                            stub.sidstGættet(strMax);
+                                        } catch (RemoteException ex) {
+                                            //fjernSpiller((String) pair.getKey());
+                                        }
+                                    }
                                     //Uddel point ud fra hvad der er stemt
                                     buffer.addPositiveVote(str);
                                 }
@@ -103,7 +113,7 @@ public class LobbyThread implements Runnable {
                                 //Bogstavet er gættet forkert
 
                                 //Opdater med negativt point
-                                for (String str : lobby.getVoters().get("A")) {
+                                for (String str : lobby.getVoters().get(strMax)) {
                                     //Send opdatering ud til alle brugere
                                     it = lobby.getSpillere().entrySet().iterator();
                                     while (it.hasNext()) {
