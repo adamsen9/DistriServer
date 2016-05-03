@@ -31,6 +31,7 @@ public class Server {
 
     ArrayList<Lobby> lobbies;
     ArrayList<LobbyThread> lobbyThreads;
+    Thread t;
 
     public Server() throws IOException {
         //Opsætning af RMI og SOAP servere
@@ -44,7 +45,7 @@ public class Server {
 
         java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
 
-        Naming.rebind("rmi://192.168.0.19/RMIServerImpl", impl);
+        Naming.rebind("rmi://localhost/RMIServerImpl", impl);
         System.out.println("Server publiceret over lokalt RMI");
 
         //SOAP-kommunikation
@@ -56,20 +57,21 @@ public class Server {
         System.out.println("Lobbier oprettes");
         DAL dal = new DAL();
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 2; i++) {
             lobbyThreads.add(new LobbyThread(dal.getBuffer(), i));
         }
 
         for (LobbyThread lobbyThread : lobbyThreads) {
             lobbies.add(lobbyThread.getLobby());
-            lobbyThread.run();
+            t = new Thread(lobbyThread);
+            t.start();
         }
 
         //DAL buffer startes
         System.out.println("DAL buffer oprettes og startes");
         BufferThread bufferThread = new BufferThread(dal, dal.getBuffer());
-        bufferThread.run();
-
+        t = new Thread(bufferThread);
+        t.start();
     }
 
     public boolean login(String user, String pass) {

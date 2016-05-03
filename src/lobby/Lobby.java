@@ -6,6 +6,7 @@
 package lobby;
 
 import distriserver.boundary.GWTStub;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,7 +16,7 @@ import java.util.Map;
  *
  * @author FrederikSwag
  */
-public class Lobby {
+public class Lobby implements Serializable{
 
     //Opdaterings kontol
     boolean nyeSpillere = false;
@@ -100,6 +101,8 @@ public class Lobby {
     }
 
     public void gætBogstav(String bogstav, String userID) {
+        System.out.println("Der gættes fra " + userID + " på " + bogstav);
+        
         if (bogstav.length() > 1) {
         } else {
             Integer value = stemmer.get(bogstav);
@@ -108,7 +111,7 @@ public class Lobby {
             hvemStemteHvad.get(bogstav).add(userID);
         }
     }
-
+    
     //Deler
     public String getSynligtOrd() {
         return synligtOrd;

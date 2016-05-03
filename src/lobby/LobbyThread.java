@@ -58,13 +58,11 @@ public class LobbyThread implements Runnable {
             
             
             while (true) {
+                    Thread.sleep(100);
                 if (lobby.getSpillere().isEmpty()) {
-                    System.out.println("tom");
                     //Hvis der ingen spillere er, gør ingenting
 
                 } else {
-                    System.out.println(lobby.getSpillere().size());
-                    Thread.sleep(100);
                     if (lobby.nyeSpillere()) {
                         //Opdater alle stubbe om at der er nye spillere
                     }

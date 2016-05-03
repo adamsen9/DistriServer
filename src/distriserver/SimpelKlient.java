@@ -5,15 +5,19 @@
  */
 package distriserver;
 
+import distriserver.boundary.GWTStub;
+import distriserver.boundary.GWTStubImpl;
 import java.rmi.Naming;
 import java.util.Scanner;
 import distriserver.boundary.RMIServerI;
+import lobby.Lobby;
 
 /**
  *
  * @author FrederikSwag
  */
 public class SimpelKlient {
+    static Lobby localLobby;
 
     public static void main(String[] args) throws Exception {
 
@@ -29,7 +33,7 @@ public class SimpelKlient {
 
         //Opret forbindelse til server
         
-        RMIServerI server = (RMIServerI) Naming.lookup("rmi://192.168.0.19/RMIServerImpl");
+        RMIServerI server = (RMIServerI) Naming.lookup("rmi://localhost/RMIServerImpl");
         
         if (server.login(user, pass)) {
             System.out.println("Login sucess");
@@ -38,6 +42,21 @@ public class SimpelKlient {
             System.exit(0);
         }
         
+        System.out.println("Anmoder om lobbier");
+        int c = 0;
+        for(Lobby lobby :server.getLobbies() ) {
+            c++;
+            System.out.println("Lobby nr " + c);
+        }
+        
+        System.out.println("Går ind i lobby 1");
+        
+        GWTStub stub = (GWTStub) new GWTStubImpl();
+        localLobby = server.getLobbies().get(0);
+        
+        localLobby.join(user, stub);
+        System.out.println("Gætter M");
+        localLobby.gætBogstav("M", user);
     }
 
 }

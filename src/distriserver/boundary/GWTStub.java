@@ -13,6 +13,7 @@ import java.util.HashMap;
  *
  * @author Frederik
  */
+
 public interface GWTStub extends java.rmi.Remote {
     
         void listeAfSpillere(ArrayList<String> liste) throws RemoteException;
