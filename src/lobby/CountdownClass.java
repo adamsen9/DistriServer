@@ -14,20 +14,33 @@ import java.util.logging.Logger;
  */
 public class CountdownClass implements Runnable {
 
-    String stringToUpdate;
     int time;
 
-    public void countDown(String strinToUpdate, int time) {
-        this.stringToUpdate = strinToUpdate;
+    public CountdownClass(int time) {
         this.time = time;
 
     }
 
+    public int getTime() {
+        return time;
+    }
+
+    public void resetTime(int timerReset) {
+        time = timerReset;
+    }
+
     @Override
     public void run() {
-        for (; time >= 0; time--) {
+        while (true) {
+            for (; time > 0; time--) {
+                System.out.println(time);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
             try {
-                stringToUpdate = Integer.toString(time);
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(CountdownClass.class.getName()).log(Level.SEVERE, null, ex);

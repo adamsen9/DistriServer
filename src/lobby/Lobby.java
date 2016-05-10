@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author FrederikSwag
  */
-public class Lobby implements Serializable{
+public class Lobby implements Serializable {
 
     //Opdaterings kontol
     boolean nyeSpillere = false;
@@ -29,13 +29,15 @@ public class Lobby implements Serializable{
     String ordet = "MASSEØDELÆGGELSESVÅBEN";
     ArrayList<String> brugteBogstaver = new ArrayList<String>();
     String synligtOrd = "";
+    
+    public int id;
 
     public Lobby() {
         //Setup af stemmer
         stemmer = new HashMap<>();
         hvemStemteHvad = new HashMap<>();
         spillere = new HashMap<>();
-        
+
         stemmer.put("A", 0);
         stemmer.put("B", 0);
         stemmer.put("C", 0);
@@ -102,16 +104,18 @@ public class Lobby implements Serializable{
 
     public void gætBogstav(String bogstav, String userID) {
         System.out.println("Der gættes fra " + userID + " på " + bogstav);
-        
-        if (bogstav.length() > 1) {
-        } else {
-            Integer value = stemmer.get(bogstav);
-            stemmer.put(bogstav, value + 1);
 
+        if (bogstav.length() > 1) {
+
+        } else {
+            stemmer.put(bogstav, stemmer.get(bogstav) + 1);
             hvemStemteHvad.get(bogstav).add(userID);
+            
+            
+            System.out.println(stemmer.get(bogstav));
         }
     }
-    
+
     //Deler
     public String getSynligtOrd() {
         return synligtOrd;
@@ -166,7 +170,7 @@ public class Lobby implements Serializable{
     }
 
     public void opdaterSynligtOrd() {
-        
+
         for (int n = 0; n < ordet.length(); n++) {
             String bogstav = ordet.substring(n, n + 1);
             if (brugteBogstaver.contains(bogstav)) {
@@ -176,7 +180,7 @@ public class Lobby implements Serializable{
             }
         }
     }
-    
+
     public ArrayList<String> getBrugteBogstaver() {
         return brugteBogstaver;
     }

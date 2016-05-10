@@ -32,6 +32,7 @@ public class Server {
     ArrayList<Lobby> lobbies;
     ArrayList<LobbyThread> lobbyThreads;
     Thread t;
+    DAL dal;
 
     public Server() throws IOException {
         //Opsætning af RMI og SOAP servere
@@ -55,10 +56,10 @@ public class Server {
 
         //Oprettelse af lobbier og start af tråde
         System.out.println("Lobbier oprettes");
-        DAL dal = new DAL();
+        dal = new DAL();
 
-        for (int i = 1; i <= 2; i++) {
-            lobbyThreads.add(new LobbyThread(dal.getBuffer(), i));
+        for (int i = 1; i <= 1; i++) {
+            lobbyThreads.add(new LobbyThread(dal.getBuffer(), "DINGERLING ".hashCode()));
         }
 
         for (LobbyThread lobbyThread : lobbyThreads) {
@@ -85,12 +86,8 @@ public class Server {
     }
 
     //TODO her skal returneres en lobby stub til klient, der da kan kalde join
-    public boolean joinLobby(UserI user) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public String getStats(String userID) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return dal.getUserStats(userID);
     }
 
     public ArrayList<Lobby> getLobbies() {

@@ -5,13 +5,6 @@
  */
 package distriserver.controller;
 
-import distriserver.boundary.RMIServerImpl;
-import java.io.IOException;
-import java.rmi.Naming;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.ws.Endpoint;
-
 /**
  *
  * @author FrederikSwag
