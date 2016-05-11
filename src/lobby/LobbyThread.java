@@ -5,15 +5,12 @@
  */
 package lobby;
 
-import distriserver.boundary.GWTStub;
+import distriserver.ClientRemote;
 import distriserver.entity.Buffer;
-import distriserver.entity.DAL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -34,7 +31,7 @@ public class LobbyThread implements Runnable {
 
     ArrayList<String> listeAfSpillere;
 
-    ArrayList<GWTStub> spillere;
+    ArrayList<ClientRemote> spillere;
 
     public LobbyThread(Buffer buffer, int id) {
         lobby = new Lobby();
@@ -56,9 +53,7 @@ public class LobbyThread implements Runnable {
     public void run() {
         Thread t = new Thread(cc);
         t.start();
-        System.out.println("LOBBYTRÅD ID ER " + id);
 
-        
         try {
             while (true) {
                 timer = cc.getTime();
@@ -70,17 +65,23 @@ public class LobbyThread implements Runnable {
                     it = lobby.getSpillere().entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry) it.next();
-                        spillere.add(((GWTStub) pair.getValue()));
+                        spillere.add(((ClientRemote) pair.getValue()));
+                        it.remove();
                     }
 
                 }
                 //TODO byg arrayliste af stubbe for nemmere opdatering længere nede i koden
 
                 if (lobby.nyeSpillere()) {
-                    System.out.println("Der er nye spillere og stubbe opdaeres");
+                    System.out.println("Der er nye spillere og klienter opdateres");
                     //Opdater alle stubbe om at der er nye spillere
                     //TODO alt hvad der hedder opdatering af stubbe
                 }
+                
+                if(lobby.nyeStemmer) {
+                    System.out.println("Der er afgivet nye stemmer og klienter opdateres");
+                }
+                
 
                 if (cc.getTime() == 0) {
                     //Omgangen er færdig og stemmer skal tælles op
@@ -92,21 +93,7 @@ public class LobbyThread implements Runnable {
 
                     cc.resetTime(timerReset);
 
-                    
                     it = lobby.getVotes().entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pair = (Map.Entry) it.next();
-                        //Match med max
-                        System.out.println(pair.getKey() + ": " + pair.getValue());
-
-                        if ((Integer) pair.getValue() > intMax) {
-                            intMax = (Integer) pair.getValue();
-                            strMax = (String) pair.getKey();
-                            System.out.println("max ord sættes til " + strMax);
-                        }
-                        lobby.getBrugteBogstaver().add(strMax);
-                    }
-
                     if (intMax > 0) {
                         //Opdater kun stemmer hvis der rent faktisk er afgivet nogle
                         System.out.println("Der er afgivet stemmer");
@@ -117,7 +104,7 @@ public class LobbyThread implements Runnable {
                             //Opdater med positivt point
                             for (String str : lobby.getVoters().get(strMax)) {
                                 //Send opdatering ud til alle brugere
-                                for (GWTStub stub : spillere) {
+                                for (ClientRemote stub : spillere) {
                                     try {
                                         stub.sidstGættet(strMax);
                                     } catch (RemoteException ex) {
@@ -127,6 +114,15 @@ public class LobbyThread implements Runnable {
                                 }
                                 //Uddel point ud fra hvad der er stemt
                                 buffer.addPositiveVote(str);
+
+                                //Det rigtige bogstav tilføjes til listen
+                                lobby.brugteBogstaver.add(strMax);
+
+                                //Afstemning nulstilles
+                                resetVoting();
+
+                                //Opdaterer synligt ord
+                                lobby.opdaterSynligtOrd();
                             }
 
                         } else {
@@ -139,23 +135,31 @@ public class LobbyThread implements Runnable {
                                 while (it.hasNext()) {
                                     Map.Entry pair = (Map.Entry) it.next();
                                     try {
-                                        ((GWTStub) pair.getValue()).resultatAfAfstemning(true);
-                                        ((GWTStub) pair.getValue()).sidstGættet("PLACEHOLDER");
+                                        ((ClientRemote) pair.getValue()).resultatAfAfstemning(true);
+                                        ((ClientRemote) pair.getValue()).sidstGættet("PLACEHOLDER");
                                     } catch (RemoteException ex) {
                                         //En remote exception betyder at der ikke er forbindelse til brugeren længere
                                         fjernSpiller((String) pair.getKey());
                                     }
-
+                                    it.remove();
                                 }
 
                                 //Uddel point ud fra hvad der er stemt
                                 buffer.addNegativeVote(str);
+
+                                //Det forkerte bogstav tilføjes til listen
+                                lobby.brugteBogstaver.add(strMax);
+
+                                //Afstemning nulstilles
+                                resetVoting();
+
+                                //Opdaterer synligt ord
+                                lobby.opdaterSynligtOrd();
                             }
                         }
 
                         //Gæt nulstilles
                         //lobby.nulstilGæt();
-
                     } else {
                         //Hvis der ikke er afgivet nogle stemmer skal der ikke ske noget
                         System.out.println("Der er ikke afgivet nogle stemmer og der genstartes");
@@ -171,12 +175,13 @@ public class LobbyThread implements Runnable {
 
                         try {
 
-                            ((GWTStub) pair.getValue()).listeAfStemmer(lobby.stemmer);
+                            ((ClientRemote) pair.getValue()).listeAfStemmer(lobby.stemmer);
 
                         } catch (RemoteException ex) {
                             //En remote exception betyder at der ikke er forbindelse til brugeren længere
                             fjernSpiller((String) pair.getKey());
                         }
+                        it.remove();
                     }
 
                     //Udsender beskeder om spillerstatus
@@ -187,7 +192,7 @@ public class LobbyThread implements Runnable {
                         while (it.hasNext()) {
                             Map.Entry pair = (Map.Entry) it.next();
                             listeAfSpillere.add((String) pair.getKey());
-
+                            it.remove();
                         }
 
                         it = lobby.getSpillere().entrySet().iterator();
@@ -196,12 +201,13 @@ public class LobbyThread implements Runnable {
                             listeAfSpillere.add((String) pair.getKey());
                             try {
 
-                                ((GWTStub) pair.getValue()).listeAfSpillere(listeAfSpillere);
+                                ((ClientRemote) pair.getValue()).listeAfSpillere(listeAfSpillere);
 
                             } catch (RemoteException ex) {
                                 //En remote exception betyder at der ikke er forbindelse til brugeren længere
                                 fjernSpiller((String) pair.getKey());
                             }
+                            it.remove();
                         }
 
                     }
@@ -214,8 +220,16 @@ public class LobbyThread implements Runnable {
         }
     }
 
+    public int getTime() {
+        return cc.getTime();
+    }
+
     public static void fjernSpiller(String userID) {
         lobby.getSpillere().remove(userID);
+    }
+
+    public static void resetVoting() {
+        lobby.resetVoting();
     }
 
 }

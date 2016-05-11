@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package distriserver.boundary;
+package distriserver;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author FrederikSwag
  */
-public class GWTStubImpl implements GWTStub {
+public class ClientRemoteImpl implements ClientRemote {
 
     @Override
     public void listeAfSpillere(ArrayList<String> liste) throws RemoteException {
@@ -29,8 +29,8 @@ public class GWTStubImpl implements GWTStub {
         Iterator it = liste.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-            System.out.print((String) pair.getKey());
-            System.out.println((String) pair.getValue());
+            System.out.print((String) pair.getKey() + ": ");
+            System.out.println((Integer) pair.getValue());
         }
 
     }

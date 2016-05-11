@@ -5,7 +5,7 @@
  */
 package lobby.LobbyAL;
 
-import distriserver.boundary.GWTStub;
+import distriserver.ClientRemote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public interface RMILobbyI extends java.rmi.Remote {
     //Selvlavede
     
     //TODO tilføj at klient giver en stub med
-    void join(String userID, GWTStub stub);
+    void join(String userID, ClientRemote remoteClient);
     
     ArrayList<String> getOtherPlayers();
     

@@ -5,7 +5,7 @@
  */
 package lobby;
 
-import distriserver.boundary.GWTStub;
+import distriserver.ClientRemote;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,16 +20,17 @@ public class Lobby implements Serializable {
 
     //Opdaterings kontol
     boolean nyeSpillere = false;
+    boolean nyeStemmer = false;
 
     //
     HashMap<String, Integer> stemmer;
     HashMap<String, ArrayList<String>> hvemStemteHvad;
-    HashMap<String, GWTStub> spillere;
+    HashMap<String, ClientRemote> spillere;
 
     String ordet = "MASSEØDELÆGGELSESVÅBEN";
     ArrayList<String> brugteBogstaver = new ArrayList<String>();
     String synligtOrd = "";
-    
+
     public int id;
 
     public Lobby() {
@@ -97,7 +98,7 @@ public class Lobby implements Serializable {
     }
 
     //RMILobby metoder
-    public void join(String userID, GWTStub stub) {
+    public void join(String userID, ClientRemote stub) {
         nyeSpillere = true;
         spillere.put(userID, stub);
     }
@@ -110,9 +111,6 @@ public class Lobby implements Serializable {
         } else {
             stemmer.put(bogstav, stemmer.get(bogstav) + 1);
             hvemStemteHvad.get(bogstav).add(userID);
-            
-            
-            System.out.println(stemmer.get(bogstav));
         }
     }
 
@@ -143,30 +141,17 @@ public class Lobby implements Serializable {
         }
     }
 
-    public HashMap<String, GWTStub> getSpillere() {
-        return spillere;
+    public boolean nyeStemmer() {
+        if (nyeStemmer) {
+            nyeStemmer = false;
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void nulstilGæt() {
-
-        //Antal afgivne stemmer
-        Iterator it = stemmer.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            //Match med max
-            pair.setValue((Integer) 0);
-
-        }
-
-        //Hvem stemte hvad
-        it = hvemStemteHvad.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            //Match med max
-            ((ArrayList) pair.getValue()).clear();
-
-        }
-
+    public HashMap<String, ClientRemote> getSpillere() {
+        return spillere;
     }
 
     public void opdaterSynligtOrd() {
@@ -183,6 +168,52 @@ public class Lobby implements Serializable {
 
     public ArrayList<String> getBrugteBogstaver() {
         return brugteBogstaver;
+    }
+
+    public ArrayList<String> getSpillereID() {
+        ArrayList<String> aktiveSpillere = new ArrayList<>();
+
+        Iterator it = spillere.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            aktiveSpillere.add((String) pair.getKey());
+
+        }
+
+        return aktiveSpillere;
+    }
+
+    public void resetVoting() {
+
+        hvemStemteHvad.clear();
+
+        stemmer.put("A", 0);
+        stemmer.put("B", 0);
+        stemmer.put("C", 0);
+        stemmer.put("D", 0);
+        stemmer.put("E", 0);
+        stemmer.put("F", 0);
+        stemmer.put("G", 0);
+        stemmer.put("H", 0);
+        stemmer.put("I", 0);
+        stemmer.put("J", 0);
+        stemmer.put("K", 0);
+        stemmer.put("L", 0);
+        stemmer.put("M", 0);
+        stemmer.put("N", 0);
+        stemmer.put("O", 0);
+        stemmer.put("P", 0);
+        stemmer.put("Q", 0);
+        stemmer.put("R", 0);
+        stemmer.put("S", 0);
+        stemmer.put("T", 0);
+        stemmer.put("U", 0);
+        stemmer.put("V", 0);
+        stemmer.put("W", 0);
+        stemmer.put("X", 0);
+        stemmer.put("Y", 0);
+        stemmer.put("Z", 0);
+
     }
 
 }

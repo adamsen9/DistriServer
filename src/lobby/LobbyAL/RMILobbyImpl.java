@@ -5,7 +5,7 @@
  */
 package lobby.LobbyAL;
 
-import distriserver.boundary.GWTStub;
+import distriserver.ClientRemote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import lobby.Lobby;
@@ -19,8 +19,8 @@ public class RMILobbyImpl implements RMILobbyI {
     Lobby lobby;
 
     @Override
-    public void join(String userID, GWTStub stub) {
-        lobby.join(userID, stub);
+    public void join(String userID, ClientRemote remoteClient) {
+        lobby.join(userID, remoteClient);
     }
 
     @Override
