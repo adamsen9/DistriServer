@@ -5,9 +5,11 @@
  */
 package distriserver;
 
-import java.rmi.Naming;
 import java.util.Scanner;
 import distriserver.boundary.RMIServerI;
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  *
@@ -15,21 +17,22 @@ import distriserver.boundary.RMIServerI;
  */
 public class SimpelKlient {
 
-
     public static void main(String[] args) throws Exception {
 
         Scanner reader = new Scanner(System.in);
-        System.out.println("Indtast brugernavn: ");
+        //System.out.println("Indtast brugernavn: ");
         //String user = reader.nextLine();
         String user = "s123157";
-        System.out.println("Indtast kodeord: ");
+        //System.out.println("Indtast kodeord: ");
         String pass = "clancbs";
         //String pass = reader.nextLine();
 
-        System.out.println("Der forsøges at logges ind");
+        System.out.println("Login..");
 
         //Opret forbindelse til server
-        RMIServerI server = (RMIServerI) Naming.lookup("rmi://localhost/RMIServerImpl");
+        Registry registry = LocateRegistry.getRegistry("54.191.78.231");
+
+        RMIServerI server = (RMIServerI) registry.lookup("rmiserverimpl");
 
         if (server.login(user, pass)) {
             System.out.println("Login sucess");
@@ -42,16 +45,16 @@ public class SimpelKlient {
         int c = 0;
         System.out.println("Lobbies: " + server.getLobbies());
 
-
         ClientRemote remoteClient = (ClientRemote) new ClientRemoteImpl();
-        
+
         server.join(0, user, remoteClient);
         System.out.println("Der er joinet");
-        
+
         System.out.println("Gætter M");
-        
+
         server.gætBogstav(0, "M", user);
         
-    }
+        System.out.println(server.getStats("s123157"));
 
+    }
 }

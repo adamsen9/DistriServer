@@ -69,7 +69,7 @@ public class DAL {
     public String getUserStats(String userID) {
         try {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            String sql = "SELECT * FROM users WHERE userid = '" + userID + "'";
+            String sql = "SELECT * FROM users WHERE user_id = '" + userID + "'";
             sql = String.format(Locale.US, sql);
 
             stmt = conn.createStatement();

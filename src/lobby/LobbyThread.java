@@ -77,11 +77,10 @@ public class LobbyThread implements Runnable {
                     //Opdater alle stubbe om at der er nye spillere
                     //TODO alt hvad der hedder opdatering af stubbe
                 }
-                
-                if(lobby.nyeStemmer) {
+
+                if (lobby.nyeStemmer) {
                     System.out.println("Der er afgivet nye stemmer og klienter opdateres");
                 }
-                
 
                 if (cc.getTime() == 0) {
                     //Omgangen er færdig og stemmer skal tælles op
@@ -143,6 +142,8 @@ public class LobbyThread implements Runnable {
                                     }
                                     it.remove();
                                 }
+
+
 
                                 //Uddel point ud fra hvad der er stemt
                                 buffer.addNegativeVote(str);

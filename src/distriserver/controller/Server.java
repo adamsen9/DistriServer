@@ -13,6 +13,8 @@ import distriserver.entity.DAL;
 
 import java.io.IOException;
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import lobby.LobbyThread;
 
@@ -28,25 +30,24 @@ public class Server {
     Thread t;
     DAL dal;
 
-    public Server() throws IOException {
-        //Opsætning af RMI og SOAP servere
+    public Server() throws IOException, Exception {
         //RMI-kommunikation
         ba = new Brugeraut();
 
         lobbyThreads = new ArrayList<>();
 
         RMIServerImpl impl = new RMIServerImpl(this);
-
-        java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
-
-        Naming.rebind("rmi://localhost/RMIServerImpl", impl);
-        System.out.println("Server publiceret over lokalt RMI");
+        
+        Registry registry = LocateRegistry.getRegistry();
+        registry.rebind("rmiserverimpl",impl);
+        
+        System.out.println("Server publiceret over RMI");
 
         //Oprettelse af lobbier og start af tråde
         System.out.println("Lobbier oprettes");
         dal = new DAL();
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 1; i++) {
             lobbyThreads.add(new LobbyThread(dal.getBuffer(), "DINGERLING ".hashCode()));
         }
 
