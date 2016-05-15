@@ -34,13 +34,16 @@ public class Server {
         //RMI-kommunikation
         ba = new Brugeraut();
 
+        SecurityManager appsm = System.getSecurityManager();
+        
+        
         lobbyThreads = new ArrayList<>();
 
         RMIServerImpl impl = new RMIServerImpl(this);
-        
+
         Registry registry = LocateRegistry.getRegistry();
-        registry.rebind("rmiserverimpl",impl);
-        
+        registry.rebind("rmiserverimpl", impl);
+
         System.out.println("Server publiceret over RMI");
 
         //Oprettelse af lobbier og start af tråde

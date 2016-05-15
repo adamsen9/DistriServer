@@ -38,8 +38,6 @@ public class DAL {
             sql = String.format(Locale.US, sql);
             stmt = conn.createStatement();
             
-            
-            
             return stmt.execute(sql);
         }
          catch(SQLException e) {
