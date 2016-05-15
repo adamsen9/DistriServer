@@ -7,6 +7,8 @@ package distriserver.controller;
 
 import distriserver.ClientRemote;
 import distriserver.boundary.RMIServerImpl;
+import distriserver.boundary.SOAPServerI;
+import distriserver.boundary.SOAPServerImpl;
 import distriserver.boundary.brugerautorisation.Brugeraut;
 import distriserver.entity.BufferThread;
 import distriserver.entity.DAL;
@@ -16,6 +18,7 @@ import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import javax.xml.ws.Endpoint;
 import lobby.LobbyThread;
 
 /**
@@ -31,20 +34,29 @@ public class Server {
     DAL dal;
 
     public Server() throws IOException, Exception {
+        RMIServerImpl impl = new RMIServerImpl(this);
+        SOAPServerImpl impl2 = new SOAPServerImpl(this);
+
+        //SOAP kommunikation
+        System.out.println("Publicerer galgeleg over SOAP");
+        Endpoint.publish("http://[::]:9901/soapserverimpl", impl2);
         //RMI-kommunikation
         ba = new Brugeraut();
 
         SecurityManager appsm = System.getSecurityManager();
-        
-        
+
         lobbyThreads = new ArrayList<>();
 
-        RMIServerImpl impl = new RMIServerImpl(this);
-
-        Registry registry = LocateRegistry.getRegistry();
-        registry.rebind("rmiserverimpl", impl);
+        //Registry registry = LocateRegistry.getRegistry();
+        //registry.rebind("rmiserverimpl", impl);
 
         System.out.println("Server publiceret over RMI");
+        
+        
+        //Til brug ved tests
+        
+       		java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
+		Naming.rebind("rmi://localhost/brugeradmin", impl);
 
         //Oprettelse af lobbier og start af tråde
         System.out.println("Lobbier oprettes");
@@ -115,6 +127,10 @@ public class Server {
 
     public ArrayList<String> getBrugteBogstaver(int lobbyNr) {
         return lobbyThreads.get(lobbyNr).getLobby().getBrugteBogstaver();
+    }
+
+    public void join(int lobbyNr, String userID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

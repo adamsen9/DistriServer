@@ -15,7 +15,7 @@ import java.rmi.registry.Registry;
  *
  * @author FrederikSwag
  */
-public class SimpelKlient {
+public class SimpelRMIKlient {
 
     public static void main(String[] args) throws Exception {
 
@@ -55,6 +55,8 @@ public class SimpelKlient {
         server.gætBogstav(0, "M", user);
         
         System.out.println(server.getStats("s123157"));
-
+        
+        server.getSynligtOrd(0);
+        
     }
 }
