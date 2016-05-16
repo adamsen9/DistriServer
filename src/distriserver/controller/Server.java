@@ -47,16 +47,16 @@ public class Server {
 
         lobbyThreads = new ArrayList<>();
 
-        //Registry registry = LocateRegistry.getRegistry();
-        //registry.rebind("rmiserverimpl", impl);
+        Registry registry = LocateRegistry.getRegistry();
+        registry.rebind("rmiserverimpl", impl);
 
         System.out.println("Server publiceret over RMI");
         
         
         //Til brug ved tests
         
-       		java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
-		Naming.rebind("rmi://localhost/brugeradmin", impl);
+       		//java.rmi.registry.LocateRegistry.createRegistry(1099); // start rmiregistry i server-JVM
+		//Naming.rebind("rmi://localhost/brugeradmin", impl);
 
         //Oprettelse af lobbier og start af tråde
         System.out.println("Lobbier oprettes");

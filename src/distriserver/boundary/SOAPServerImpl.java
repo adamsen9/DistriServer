@@ -14,7 +14,7 @@ import javax.jws.WebService;
  * @author Frederik
  */
 
-@WebService(endpointInterface = "distriserver.boundary.SOAPServerImpl")
+@WebService(endpointInterface = "distriserver.boundary.SOAPServerI")
 public class SOAPServerImpl implements SOAPServerI {
 
     Server server;

@@ -6,6 +6,8 @@
 package distriserver;
 
 import brugerautorisation.transport.soap.Brugeradmin;
+import distriserver.boundary.SOAPServerI;
+import distriserver.boundary.SOAPServerImpl;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -17,16 +19,15 @@ import javax.xml.ws.Service;
 public class SimeplSOAPKlient {
 
     public static void main(String[] args) throws Exception {
-        URL url = new URL("localhost:9901/soapserverimpl?wsdl");
+        URL url = new URL("http://54.191.78.231:9901/soapserverimpl?wsdl");
 
-        QName qname = new QName("http://soap.transport.brugerautorisation/", "BrugeradminImplService");
-
+        QName qname = new QName("http://boundary.distriserver/", "SOAPServerImplService");
 
         Service service = Service.create(url, qname);
-
-        Brugeradmin ba = service.getPort(Brugeradmin.class);
-
-
+        
+        SOAPServerI server = service.getPort(SOAPServerI.class);
+        
+        server.login("s123157", "clancbs");
     }
 
 }
